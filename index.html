@@ -1,152 +1,272 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mini CRM - Sireesha</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Lead Management</title>
 
-        body {
-            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#141e30,#243b55);
+color:white;
+}
 
-        h1 {
-            margin-bottom: 20px;
-        }
+header{
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:bold;
+background:#0f2027;
+}
 
-        .form-box {
-            background: white;
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
+.container{
+width:90%;
+margin:auto;
+margin-top:30px;
+}
 
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
+/* Dashboard Stats */
+.stats{
+display:flex;
+justify-content:space-between;
+margin-bottom:30px;
+flex-wrap:wrap;
+}
 
-        button {
-            background: #2c5364;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+.stat-card{
+flex:1;
+margin:10px;
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:15px;
+text-align:center;
+backdrop-filter:blur(10px);
+}
 
-        button:hover {
-            background: #203a43;
-        }
+.stat-card h2{
+margin:0;
+color:#00eaff;
+}
 
-        table {
-            margin-top: 30px;
-            width: 100%;
-            background: white;
-            color: black;
-            border-collapse: collapse;
-        }
+/* Form */
+.form-box{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:15px;
+margin-bottom:30px;
+}
 
-        th, td {
-            padding: 12px;
-            border: 1px solid black;
-        }
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
 
-        th {
-            background: #2c5364;
-            color: white;
-        }
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#00eaff;
+font-weight:bold;
+}
 
-        .delete-btn {
-            background: red;
-            color: white;
-            padding: 5px;
-            cursor: pointer;
-            border: none;
-        }
-    </style>
+button:hover{
+background:#00bcd4;
+}
+
+/* Table */
+table{
+width:100%;
+border-collapse:collapse;
+background:rgba(255,255,255,0.05);
+border-radius:10px;
+overflow:hidden;
+}
+
+th,td{
+padding:12px;
+text-align:center;
+}
+
+th{
+background:#00eaff;
+color:black;
+}
+
+tr:nth-child(even){
+background:rgba(255,255,255,0.05);
+}
+
+.status-new{color:yellow;}
+.status-contacted{color:orange;}
+.status-closed{color:lightgreen;}
+
+.delete-btn{
+background:red;
+color:white;
+}
+
+.search-box{
+margin-bottom:20px;
+}
+
+@media(max-width:768px){
+.stats{flex-direction:column;}
+}
+</style>
 </head>
+
 <body>
 
-<h1>Client Lead Management System</h1>
+<header>Premium Client Lead Management System</header>
 
-<div class="form-box">
-    <input type="text" id="name" placeholder="Client Name">
-    <input type="email" id="email" placeholder="Client Email">
-    <select id="status">
-        <option value="New">New</option>
-        <option value="Contacted">Contacted</option>
-        <option value="Converted">Converted</option>
-    </select>
-    <button onclick="addLead()">Add Lead</button>
+<div class="container">
+
+<!-- Stats -->
+<div class="stats">
+<div class="stat-card">
+<h2 id="totalLeads">0</h2>
+<p>Total Leads</p>
 </div>
 
+<div class="stat-card">
+<h2 id="newLeads">0</h2>
+<p>New</p>
+</div>
+
+<div class="stat-card">
+<h2 id="closedLeads">0</h2>
+<p>Closed</p>
+</div>
+</div>
+
+<!-- Form -->
+<div class="form-box">
+<h3>Add New Lead</h3>
+<input type="text" id="name" placeholder="Client Name">
+<input type="email" id="email" placeholder="Client Email">
+
+<select id="status">
+<option value="New">New</option>
+<option value="Contacted">Contacted</option>
+<option value="Closed">Closed</option>
+</select>
+
+<button onclick="addLead()">Add Lead</button>
+</div>
+
+<!-- Search -->
+<div class="search-box">
+<input type="text" id="search" placeholder="Search by name..." onkeyup="filterLeads()">
+</div>
+
+<!-- Table -->
 <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="leadTable"></tbody>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="leadTable"></tbody>
 </table>
 
+</div>
+
 <script>
-    let leads = JSON.parse(localStorage.getItem("leads")) || [];
 
-    function displayLeads() {
-        let table = document.getElementById("leadTable");
-        table.innerHTML = "";
-        leads.forEach((lead, index) => {
-            table.innerHTML += `
-                <tr>
-                    <td>${lead.name}</td>
-                    <td>${lead.email}</td>
-                    <td>${lead.status}</td>
-                    <td><button class="delete-btn" onclick="deleteLead(${index})">Delete</button></td>
-                </tr>
-            `;
-        });
-    }
+let leads = JSON.parse(localStorage.getItem("leads")) || [];
 
-    function addLead() {
-        let name = document.getElementById("name").value;
-        let email = document.getElementById("email").value;
-        let status = document.getElementById("status").value;
+function saveData(){
+localStorage.setItem("leads", JSON.stringify(leads));
+}
 
-        if(name === "" || email === "") {
-            alert("Please fill all fields");
-            return;
-        }
+function renderLeads(){
+let table = document.getElementById("leadTable");
+table.innerHTML="";
 
-        leads.push({ name, email, status });
-        localStorage.setItem("leads", JSON.stringify(leads));
-        displayLeads();
+leads.forEach((lead,index)=>{
+let statusClass="";
+if(lead.status==="New") statusClass="status-new";
+if(lead.status==="Contacted") statusClass="status-contacted";
+if(lead.status==="Closed") statusClass="status-closed";
 
-        document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
-    }
+table.innerHTML+=`
+<tr>
+<td>${lead.name}</td>
+<td>${lead.email}</td>
+<td class="${statusClass}">
+<select onchange="updateStatus(${index},this.value)">
+<option ${lead.status==="New"?"selected":""}>New</option>
+<option ${lead.status==="Contacted"?"selected":""}>Contacted</option>
+<option ${lead.status==="Closed"?"selected":""}>Closed</option>
+</select>
+</td>
+<td>
+<button class="delete-btn" onclick="deleteLead(${index})">Delete</button>
+</td>
+</tr>
+`;
+});
 
-    function deleteLead(index) {
-        leads.splice(index, 1);
-        localStorage.setItem("leads", JSON.stringify(leads));
-        displayLeads();
-    }
+updateStats();
+}
 
-    displayLeads();
+function addLead(){
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let status=document.getElementById("status").value;
+
+if(name===""||email===""){
+alert("Please fill all fields");
+return;
+}
+
+leads.push({name,email,status});
+saveData();
+renderLeads();
+
+document.getElementById("name").value="";
+document.getElementById("email").value="";
+}
+
+function deleteLead(index){
+leads.splice(index,1);
+saveData();
+renderLeads();
+}
+
+function updateStatus(index,value){
+leads[index].status=value;
+saveData();
+renderLeads();
+}
+
+function updateStats(){
+document.getElementById("totalLeads").innerText=leads.length;
+document.getElementById("newLeads").innerText=leads.filter(l=>l.status==="New").length;
+document.getElementById("closedLeads").innerText=leads.filter(l=>l.status==="Closed").length;
+}
+
+function filterLeads(){
+let search=document.getElementById("search").value.toLowerCase();
+let rows=document.querySelectorAll("#leadTable tr");
+
+rows.forEach(row=>{
+let name=row.children[0].innerText.toLowerCase();
+row.style.display=name.includes(search)?"":"none";
+});
+}
+
+renderLeads();
+
 </script>
 
 </body>
