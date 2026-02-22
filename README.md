@@ -1,35 +1,69 @@
-# Client Lead Management System (Mini CRM)
+# 🚀 Premium Client Lead Management System
 
-This project is developed as part of the **Future Interns – Full Stack Web Development Internship (Task 2).**
+A fully responsive and interactive Client Lead Management System built using pure Frontend technologies.
 
-## 📌 Project Overview
-The Client Lead Management System is a simple Mini CRM application designed to manage client leads generated from website inquiries.
-
-## 🎯 Features
-- Add new client leads (Name, Email, Status)
-- View leads in a structured table
-- Delete leads
-- Store data using LocalStorage
-- Clean and responsive user interface
-
-## 💻 Technologies Used
-- HTML
-- CSS
-- JavaScript
-- LocalStorage
-
-## 🚀 Live Demo
-👉 https://palakeerthisireesha2-cyber.github.io/FUTURE_FS_02/
-
-## 📂 GitHub Repository
-👉 https://github.com/palakeerthisireesha2-cyber/FUTURE_FS_02
-
-## 🎓 Learning Outcomes
-- DOM Manipulation
-- CRUD operations
-- JavaScript functions
-- Basic CRM workflow
-- GitHub deployment
+This project allows users to add, manage, update, search, and delete client leads with live dashboard statistics — without using any backend or database.
 
 ---
-⭐ Submitted for Future Interns – Full Stack Web Development Internship
+
+## 📌 Project Overview
+
+This application helps businesses manage client leads efficiently through a clean and modern UI.  
+All data is stored securely inside the browser using LocalStorage.
+
+It demonstrates practical frontend development concepts including:
+
+- DOM Manipulation
+- Event Handling
+- Data Persistence
+- Dynamic Table Rendering
+- Live Statistics Dashboard
+
+---
+
+## 🌟 Features
+
+✔ Add New Leads  
+✔ Update Lead Status (New / Contacted / Closed)  
+✔ Delete Leads (with confirmation)  
+✔ Search Leads by Name  
+✔ Live Dashboard Counters  
+✔ Responsive Design  
+✔ Animated UI Cards  
+✔ LocalStorage Data Persistence  
+✔ Modern Gradient Background  
+
+---
+
+## 📊 Dashboard Includes
+
+- Total Leads Counter
+- New Leads Counter
+- Closed Leads Counter
+- Dynamic Lead Table
+- Status-Based Color Indicators
+
+---
+
+## 🎨 UI Highlights
+
+- Professional Gradient Background
+- Glassmorphism Card Design
+- Smooth Hover Animations
+- Clean Typography
+- Mobile Responsive Layout
+
+---
+
+## 🛠 Technologies Used
+
+| Technology | Purpose |
+|------------|----------|
+| HTML5 | Structure |
+| CSS3 | Styling & Responsive Design |
+| JavaScript | Functionality & Logic |
+| LocalStorage | Data Storage |
+
+---
+
+## 📂 Project Structure
